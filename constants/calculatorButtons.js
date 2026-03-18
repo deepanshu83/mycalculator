@@ -25,7 +25,7 @@ export const CALCULATOR_BUTTON_ROWS = [
   ],
   [
     { label: '0', variant: 'number', flex: 2 },
-    { label: '.', variant: 'number' },
+    { label: '.', variant: 'number'  },
     { label: '=', variant: 'operator' },
   ],
 ];
