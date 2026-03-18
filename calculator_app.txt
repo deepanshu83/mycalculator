@@ -1,0 +1,345 @@
+React Native Calculator App - Detailed Steps
+
+1. Define the app scope first
+Decide what your calculator should support before you build anything.
+
+Minimum version:
+- Number input: 0-9
+- Decimal input
+- Basic operators: +, -, x, /
+- Equals button
+- Clear button
+- Delete/backspace button
+- Display for current input and result
+
+Optional later features:
+- Percentage
+- Positive/negative toggle
+- Scientific mode
+- Calculation history
+- Dark mode
+- Haptic feedback
+
+2. Set up the React Native project
+Choose one of these approaches:
+
+Option A: Expo
+- Faster to start
+- Easier for beginners
+- Good if you want quick testing on phone
+
+Option B: React Native CLI
+- More native control
+- Better if you expect native customization later
+
+Recommended for a simple calculator app:
+- Start with Expo unless you already need native modules
+
+Typical setup flow:
+- Install Node.js
+- Install a package manager like npm or yarn
+- Create a new React Native app
+- Run the starter app on Android emulator, iOS simulator, or physical device
+- Confirm the base app launches correctly before building features
+
+3. Plan the UI structure
+Break the screen into clear sections.
+
+Main layout:
+- Top section: calculator display
+- Bottom section: button grid
+
+Display area should show:
+- Current typed number
+- Selected operator if needed
+- Previous value or small expression preview
+
+Button grid should include:
+- Digits
+- Arithmetic operators
+- Clear
+- Delete
+- Decimal
+- Equals
+
+Common grid layout:
+- 4 columns
+- Buttons sized equally
+- Zero button can optionally span two columns
+
+4. Design the state model
+Before coding, define what data the app must track.
+
+Useful state values:
+- currentValue: the number currently being typed
+- previousValue: stored value before an operator is pressed
+- operator: current selected operator
+- shouldResetDisplay: whether the next digit should replace the current display
+
+You may also keep:
+- expressionText: text like "12 +"
+- errorState: whether invalid math happened
+
+Why this matters:
+- A calculator is mostly state management
+- If the state design is clean, the UI becomes much easier
+
+5. Define user actions
+List every interaction and what should happen.
+
+Actions to support:
+- Press digit
+- Press decimal
+- Press operator
+- Press equals
+- Press clear
+- Press delete
+- Press plus/minus
+- Press percent
+
+Expected behavior examples:
+- Pressing digits appends to currentValue
+- Pressing an operator stores currentValue into previousValue
+- Pressing equals performs the pending operation
+- Pressing clear resets all values
+- Pressing delete removes the last typed character
+
+6. Decide the calculator logic rules
+You need consistent behavior rules before implementation.
+
+Examples:
+- Prevent multiple decimals in one number
+- Avoid division by zero crashes
+- Decide how repeated equals should behave
+- Decide whether a new operator replaces the old one if pressed twice
+- Decide whether leading zeros are allowed
+
+Recommended simple behavior:
+- Only one decimal per number
+- Replace leading zero when a real digit is entered
+- Show "Error" on divide by zero
+- Pressing another operator changes the selected operator if no new number has been typed
+
+7. Build reusable UI components
+Even for a small app, split the UI into parts.
+
+Good component structure:
+- CalculatorScreen
+- Display
+- ButtonGrid
+- CalcButton
+
+Benefits:
+- Easier styling
+- Easier testing
+- Cleaner logic separation
+
+8. Style the calculator clearly
+Focus on readability and touch comfort.
+
+UI recommendations:
+- Large display text
+- High contrast between background and buttons
+- Equal button sizes
+- Enough spacing for finger taps
+- Operator buttons visually distinct from number buttons
+- Pressed-state feedback for buttons
+
+Mobile layout tips:
+- Respect safe area
+- Keep large touch targets
+- Test on both small and large screens
+- Avoid cramped text in the display
+
+9. Implement input handling
+Each button type should map to a dedicated handler.
+
+Suggested handler groups:
+- handleNumberPress
+- handleDecimalPress
+- handleOperatorPress
+- handleEqualsPress
+- handleClearPress
+- handleDeletePress
+
+This separation helps because:
+- Each handler solves one specific behavior
+- Bugs are easier to isolate
+- Future features are easier to add
+
+10. Implement the math engine
+Keep the arithmetic logic separate from the visual components.
+
+You should define:
+- A function that receives previousValue, currentValue, and operator
+- A return result for +, -, x, and /
+- Error handling for invalid cases
+
+Why separate this:
+- UI should not contain too much calculation logic
+- Easier to test business rules independently
+
+11. Handle edge cases early
+Calculator apps look simple but fail on small details.
+
+Important edge cases:
+- Starting with decimal
+- Multiple decimals
+- Empty input
+- Pressing equals without a second number
+- Repeated operator taps
+- Division by zero
+- Very long numbers overflowing the display
+
+Recommended solutions:
+- Convert "." into "0."
+- Ignore duplicate decimals
+- Keep display stable if equals is pressed too early
+- Use smaller font or truncate long values
+
+12. Add responsive display behavior
+Numbers can become long quickly.
+
+Plan for:
+- Dynamic font size
+- Text alignment to the right
+- Horizontal shrinking or clipping
+- Rounding or formatting output when needed
+
+You should also decide:
+- Maximum visible digits
+- Whether to use commas for large values
+- Whether to round floating-point results
+
+13. Test the calculator manually
+Before thinking about polish, verify behavior thoroughly.
+
+Manual test scenarios:
+- 2 + 3 = 5
+- 9 - 4 = 5
+- 6 x 7 = 42
+- 8 / 2 = 4
+- 8 / 0 shows error
+- 0.1 + 0.2 behavior is acceptable for your rules
+- Delete works correctly
+- Clear fully resets the calculator
+- Pressing operator twice behaves consistently
+
+Also test:
+- Landscape and portrait
+- Small and large phones
+- Android and iOS if possible
+
+14. Add automated tests if you want reliability
+This is optional for a very small app, but useful.
+
+What to test:
+- Math helper functions
+- Input state transitions
+- Critical button press flows
+
+Good test targets:
+- operator handling
+- decimal restrictions
+- clear/reset logic
+- divide-by-zero behavior
+
+15. Improve UX after the base version works
+Do not add polish before the logic is stable.
+
+Useful improvements:
+- Button press animation
+- Vibration/haptic feedback
+- Theme switcher
+- Calculation history
+- Copy result
+- Better error messages
+
+16. Prepare for release
+Once the app works reliably, make it production-ready.
+
+Checklist:
+- App name and icon
+- Splash screen
+- Clean spacing and alignment
+- No debug logs
+- Tested on real device
+- Build generated successfully
+- Performance checked for smooth taps
+
+17. Suggested development order
+Follow this order to avoid confusion.
+
+Step 1:
+- Set up the project and run it
+
+Step 2:
+- Create the calculator screen layout
+
+Step 3:
+- Add display component
+
+Step 4:
+- Add all calculator buttons
+
+Step 5:
+- Create state for current value, previous value, and operator
+
+Step 6:
+- Implement number input
+
+Step 7:
+- Implement operator selection
+
+Step 8:
+- Implement equals behavior
+
+Step 9:
+- Add clear and delete
+
+Step 10:
+- Handle edge cases
+
+Step 11:
+- Improve styling
+
+Step 12:
+- Test on device
+
+18. Practical folder structure idea
+You can keep it simple like this:
+
+- app or screens/
+- components/
+- utils/
+- constants/
+
+Example responsibility split:
+- screens/: main calculator screen
+- components/: buttons and display
+- utils/: math logic and helpers
+- constants/: button labels, theme colors, layout config
+
+19. Common mistakes to avoid
+- Mixing UI rendering and math logic in one large file
+- Not planning state transitions
+- Ignoring decimal edge cases
+- Not testing divide-by-zero
+- Letting the display overflow badly
+- Making touch targets too small
+
+20. Final build mindset
+Treat the app as three separate problems:
+- UI layout
+- state management
+- calculation logic
+
+If you solve them in that order and keep them separate, the app will stay manageable.
+
+Short summary:
+- Start simple
+- Build the UI skeleton
+- Define state clearly
+- Add input handlers one by one
+- Test every button flow
+- Polish only after the calculator works correctly
